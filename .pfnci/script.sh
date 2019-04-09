@@ -1,10 +1,10 @@
 #!/bin/bash
 # Usage: .pfnci/script.sh [target]
-# - target is a test target (e.g., "chainer-prep.py37").
+# - target is a test target (e.g., "chainer-ci-prep.py37").
 #
 # For testing this script, set DRYRUN=1 as an environment variable and run the
 # script.  It will print commands without execution.
-# $ DRYRUN=1 bash .pfnci/script.sh chainer-prep.py37
+# $ DRYRUN=1 bash .pfnci/script.sh chainer-ci-prep.py37
 
 set -eu
 
@@ -19,7 +19,7 @@ main() {
   docker_args=(docker run  --rm --volume="$(pwd):/src:ro")
 
   case "${TARGET}" in
-    'chainer-prep.py37' | 'chainer-prep.py27and35' )
+    'chainer-ci-prep.py37' | 'chainer-ci-prep.py27and35' )
       run docker build -t "asia.gcr.io/pfn-public-ci/${TARGET}" \
           -f ".pfnci/${TARGET}.Dockerfile" .
       run docker push "asia.gcr.io/pfn-public-ci/${TARGET}"
