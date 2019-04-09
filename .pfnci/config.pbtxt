@@ -1,0 +1,30 @@
+# Chainer-related targets.  The following targets are built on CuPy's master
+# push because Chainer unit testing sometimes depends on CuPy's master branch.
+# TODO(imos): Move the followings to chainer-test repository once the CI
+# supports a scheduling feature because this is not directly related to CuPy.
+configs {
+  key: "cupy.chainer-prep.py37"
+  value {
+    requirement {
+      cpu: 2
+      memory: 12
+    }
+    time_limit: {
+      seconds: 3600
+    }
+    command: "bash .pfnci/script.sh chainer-prep.py37"
+  }
+}
+configs {
+  key: "cupy.chainer-prep.py27and35"
+  value {
+    requirement {
+      cpu: 2
+      memory: 12
+    }
+    time_limit: {
+      seconds: 3600
+    }
+    command: "bash .pfnci/script.sh chainer-prep.py27and35"
+  }
+}
