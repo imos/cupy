@@ -1,3 +1,8 @@
+FROM golang AS xpytest
+RUN git clone --depth=1 https://github.com/imos/xpytest.git /xpytest
+RUN cd /xpytest && \
+    go build -o /usr/local/bin/xpytest ./cmd/xpytest
+
 FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu16.04
 
 RUN apt-get update -y && \
@@ -20,15 +25,13 @@ RUN pip install \
 # Newer versions of more-itertools no longer support python2.
 RUN pip install 'more-itertools<=5.0.0'
 
-RUN mkdir -p /tmp/xpytest && cd /tmp/xpytest && \
-    wget 'https://github.com/imos/xpytest/releases/download/v0.1.3/xpytest-linux.gz' && \
-    gunzip xpytest-linux.gz && \
-    chmod +x xpytest-linux && \
-    mv xpytest-linux /usr/local/bin/xpytest && \
-    rm -rf /tmp/xpytest
+COPY --from=xpytest /usr/local/bin/xpytest /usr/local/bin/xpytest
 
-RUN git clone https://github.com/cupy/cupy.git /tmp/cupy && \
-    cd /tmp/cupy && \
-    python3 -m pip install . && \
-    python -m pip install . && \
-    rm -rf /tmp/cupy
+COPY . /cupy
+RUN cd /cupy && \
+    python3.5 -m pip install . & \
+    py35_pid=$! && \
+    python2.7 -m pip install . & \
+    py27_pid=$! && \
+    wait $py35_pid && \
+    wait $py27_pid
