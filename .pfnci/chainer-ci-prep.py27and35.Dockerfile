@@ -29,9 +29,6 @@ COPY --from=xpytest /usr/local/bin/xpytest /usr/local/bin/xpytest
 
 COPY . /cupy
 RUN cd /cupy && \
-    python3.5 -m pip install . & \
-    py35_pid=$! && \
-    python2.7 -m pip install . & \
-    py27_pid=$! && \
-    wait $py35_pid && \
-    wait $py27_pid
+    echo 'install-%:\n\t$* -m pip install .\n' > /tmp/install.mk && \
+    cat /tmp/install.mk && \
+    make -f /tmp/install.mk -j 2 install-python3.5 install-python2.7
