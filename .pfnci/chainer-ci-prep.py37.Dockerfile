@@ -1,5 +1,5 @@
 FROM golang AS xpytest
-RUN git clone --depth=1 https://github.com/imos/xpytest.git /xpytest
+RUN git clone --depth=1 https://github.com/chainer/xpytest.git /xpytest
 RUN cd /xpytest && \
     go build -o /usr/local/bin/xpytest ./cmd/xpytest
 
