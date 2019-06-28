@@ -8,7 +8,7 @@ FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
     python3.7-dev python3-pip python3-wheel python3-setuptools \
-    wget git g++ make cmake libblas3 libblas-dev && \
+    wget git g++ make cmake libblas3 libblas-dev liblapack-dev && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # NOTE: protobuf version is fixed because of deprecation warning in 3.7.0:

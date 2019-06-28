@@ -9,7 +9,7 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
     python-dev python-pip python-wheel python-setuptools \
     python3-dev python3-pip python3-wheel python3-setuptools \
-    wget git g++ make cmake libblas3 libblas-dev && \
+    wget git g++ make cmake libblas3 libblas-dev liblapack-dev && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 RUN pip3 install \
